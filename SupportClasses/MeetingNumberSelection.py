@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\Michael\Documents\GitHub\Assessments.MeetingMinuteTracker\SupportClasses\dashboard.ui'
+# Form implementation generated from reading ui file 'C:\Users\Michael\Documents\GitHub\Assessments.MeetingMinuteTracker\SupportClasses\Meeting Number.ui'
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
@@ -11,13 +11,13 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(412, 202)
-        MainWindow.setMinimumSize(QtCore.QSize(412, 202))
+        MainWindow.resize(416, 290)
+        MainWindow.setMinimumSize(QtCore.QSize(416, 290))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.centralwidget)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        spacerItem = QtWidgets.QSpacerItem(92, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(35, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
@@ -36,28 +36,35 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.lblHeader, 0, QtCore.Qt.AlignHCenter)
         spacerItem2 = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         self.verticalLayout.addItem(spacerItem2)
-        self.btnNewMeeting = QtWidgets.QPushButton(self.centralwidget)
-        self.btnNewMeeting.setMinimumSize(QtCore.QSize(150, 25))
-        self.btnNewMeeting.setMaximumSize(QtCore.QSize(150, 25))
-        self.btnNewMeeting.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.btnNewMeeting.setObjectName("btnNewMeeting")
-        self.verticalLayout.addWidget(self.btnNewMeeting, 0, QtCore.Qt.AlignHCenter)
+        self.cmbMeetingNumbers = QtWidgets.QComboBox(self.centralwidget)
+        self.cmbMeetingNumbers.setMinimumSize(QtCore.QSize(250, 0))
+        self.cmbMeetingNumbers.setMaximumSize(QtCore.QSize(150, 16777215))
+        self.cmbMeetingNumbers.setObjectName("cmbMeetingNumbers")
+        self.verticalLayout.addWidget(self.cmbMeetingNumbers, 0, QtCore.Qt.AlignHCenter)
         spacerItem3 = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         self.verticalLayout.addItem(spacerItem3)
-        self.btnEditMeeting = QtWidgets.QPushButton(self.centralwidget)
-        self.btnEditMeeting.setMinimumSize(QtCore.QSize(150, 25))
-        self.btnEditMeeting.setMaximumSize(QtCore.QSize(150, 25))
-        self.btnEditMeeting.setSizeIncrement(QtCore.QSize(150, 0))
-        self.btnEditMeeting.setObjectName("btnEditMeeting")
-        self.verticalLayout.addWidget(self.btnEditMeeting, 0, QtCore.Qt.AlignHCenter)
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.btnCancel = QtWidgets.QPushButton(self.centralwidget)
+        self.btnCancel.setMinimumSize(QtCore.QSize(150, 25))
+        self.btnCancel.setMaximumSize(QtCore.QSize(150, 25))
+        self.btnCancel.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.btnCancel.setObjectName("btnCancel")
+        self.horizontalLayout_2.addWidget(self.btnCancel)
+        self.btnOK = QtWidgets.QPushButton(self.centralwidget)
+        self.btnOK.setMinimumSize(QtCore.QSize(150, 25))
+        self.btnOK.setMaximumSize(QtCore.QSize(150, 25))
+        self.btnOK.setObjectName("btnOK")
+        self.horizontalLayout_2.addWidget(self.btnOK)
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
         spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem4)
         self.horizontalLayout.addLayout(self.verticalLayout)
-        spacerItem5 = QtWidgets.QSpacerItem(92, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem5 = QtWidgets.QSpacerItem(35, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem5)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 412, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 416, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -70,9 +77,9 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Meeting Memo Capture"))
-        self.lblHeader.setText(_translate("MainWindow", "Meeting Memo Capture"))
-        self.btnNewMeeting.setText(_translate("MainWindow", "Capture New Meeting"))
-        self.btnEditMeeting.setText(_translate("MainWindow", "Edit Existing Meeting"))
+        self.lblHeader.setText(_translate("MainWindow", "Select Meeting Number"))
+        self.btnCancel.setText(_translate("MainWindow", "Cancel"))
+        self.btnOK.setText(_translate("MainWindow", "OK"))
 
 
 if __name__ == "__main__":
