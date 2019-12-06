@@ -138,7 +138,7 @@ class DatabaseConnector:
 		finally:
 			return response
 
-	def get_meetings_by_type(self, meetingPrefix):
+	def get_meeting_numbers_by_type(self, meetingPrefix):
 		response = {
 		    "status":"Success",
 		    "result":""
@@ -157,6 +157,29 @@ class DatabaseConnector:
 						''',
 						{"prefix": meetingPrefix})
 					response["result"]=([_[0] for _ in self.c.fetchall()])
+
+		except Exception as e:
+			response["status"]="Error"
+			response["result"]=e
+		finally:
+			return response
+
+	def get_all_meeting_items_by_meeting(self, prefix, number):
+		response = {
+		    "status":"Success",
+		    "result":""
+		}
+		try:
+			with self.conn:
+				self.c.execute('''SELECT i.itemName, mis.statusActionsRequired, mis.statusPersonResponsible FROM items AS i
+						JOIN meeting_item_status AS mis ON i.itemID = mis.itemID
+						WHERE  mis.meetingPrefix= :prefix 
+						AND mis.meetingNumber= :num
+					''',
+					{"prefix":prefix,
+					"num":number})
+				response["result"]=self.c.fetchall()
+
 
 		except Exception as e:
 			response["status"]="Error"
@@ -232,10 +255,84 @@ class DatabaseConnector:
 			response["result"]=e
 		finally:
 			return response
+
+	def insert_meeting_item_statuses(self, itemList, prefix, number):
+		response = {
+		    "status":"Success",
+		    "result":""
+		}
+		try:
+			with self.conn:
+				for item in itemList:
+					self.c.execute('''SELECT itemID FROM items
+						WHERE itemName = :name
+						''',
+						{"name":item})
+					itemID = self.c.fetchone()[0]
+					self.c.execute('''INSERT INTO meeting_item_status
+							(itemID, meetingNumber, meetingPrefix, statusActionsRequired, statusPersonResponsible) 
+							VALUES 
+							(:id, :num, :prefix, :actions, :person)''', 
+							{"id":itemID, "num":number, "prefix":prefix, "actions":"TBD", "person":"TBD"})
+					self.conn.commit()
+		except Exception as e:
+			response["status"]="Error"
+			response["result"]=e
+		finally:
+			return response
+
+	def insert_meeting(self, prefix, number):
+		print(prefix, number)
+		response = {
+		    "status":"Success",
+		    "result":""
+		}
+		try:
+			with self.conn:
+				self.c.execute('''INSERT INTO meetings
+						(meetingPrefix, meetingNumber) 
+						VALUES 
+						(:prefix, :num)''', 
+						{"prefix":prefix, "num":number})
+				self.conn.commit()
+		except Exception as e:
+			response["status"]="Error"
+			response["result"]=e
+		finally:
+			return response
 	#####################
 
 	##Update Statements##
-
+	def update_meeting_item(self, item, prefix, number, action, person):
+		response = {
+		    "status":"Success",
+		    "result":""
+		}
+		try:
+			with self.conn:
+				self.c.execute('''SELECT itemID FROM items
+						WHERE itemName = :name
+						''',
+						{"name":item})
+				itemID = self.c.fetchone()[0]
+				self.c.execute('''UPDATE meeting_item_status SET
+						statusActionsRequired = :actions, 
+					    statusPersonResponsible = :person
+					    WHERE itemID = :itemID
+					    AND meetingNumber = :num
+					    AND meetingPrefix = :prefix;
+						''', 
+						{"actions":action,
+						"person":person,
+						"itemID":itemID,
+						"num":number,
+						"prefix":prefix})
+				self.conn.commit()
+		except Exception as e:
+			response["status"]="Error"
+			response["result"]=e
+		finally:
+			return response
 	#####################
 
 	##Delete Statements##
