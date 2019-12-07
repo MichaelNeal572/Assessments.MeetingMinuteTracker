@@ -153,7 +153,8 @@ class Controller:
 				self.numberselector.window.show()
 				self.populate_meeting_numbers()
 		else:
-			pass
+			self.messageDisplay.showMessage(message = "Error connecting to database", details =res["result"] , type ="Critical")
+			self.meeting_type_to_dashboard()
 
 	def meeting_type_to_dashboard(self):
 		self.typeselector.window.close()
@@ -209,16 +210,16 @@ class Controller:
 				except Exception as e:
 					print(f"table exception: {str(e)}")
 		else:
-			pass
+			self.messageDisplay.showMessage(message = "Error connecting to database", details =res["result"] , type ="Critical")
 
 	def setup_new_meeting(self):
 		res = self.dbc.insert_meeting(self.memory.get_meeting_prefix(), self.memory.get_meeting_currentNumber())
 		if res["status"]=="Success":
 			res2 = self.dbc.insert_meeting_item_statuses(self.memory.get_meetingItems(), self.memory.get_meeting_prefix(), self.memory.get_meeting_currentNumber())
 			if res2["status"]=="Error":
-				pass
+				self.messageDisplay.showMessage(message = "Error populating meeting items", details =res2["result"] , type ="Critical")
 		else:
-			pass
+			self.messageDisplay.showMessage(message = "Error creating meeting", details =res["result"] , type ="Critical")
 
 	def update_selected_item(self):
 		item = self.itemeditor.ui.txtItem.text()
@@ -229,8 +230,9 @@ class Controller:
 		res = self.dbc.update_meeting_item(item, prefix, number, actions, person)
 		if res["status"]=="Success":
 			self.refresh_table()
+			self.messageDisplay.showMessage(message = "Success", details ="Meeting Item Successfully updated" , type ="Information")
 		else:
-			print(res["result"])
+			self.messageDisplay.showMessage(message = "Database Failure", details =res["result"] , type ="Warning")
 
 	def item_editor_clear_fields(self):
 		self.itemeditor.ui.txtItem.setText("")
@@ -247,12 +249,13 @@ class Controller:
 	def populate_meeting_numbers(self):
 		res = self.dbc.get_meeting_numbers_by_type(self.memory.get_meeting_prefix())
 		if res["status"]=="No Records":
-			pass
+			self.messageDisplay.showMessage(message = "There are no previous meetings of this type", details = "Please create a new meeting or contact administration for assistance" , type ="Critical")
+
 		elif res["status"]=="Success":
 			self.typeselector.ui.cmbMeetingNumbers.clear()
 			self.typeselector.ui.cmbMeetingNumbers.addItems(res["result"])
 		else:
-			pass
+			self.messageDisplay.showMessage(message = "Error connecting to database", details =res["result"] , type ="Critical")
 
 	def populate_meeting_types(self):
 		res = self.dbc.get_meeting_types()
@@ -260,7 +263,7 @@ class Controller:
 			self.typeselector.ui.cmbMeetingTypes.clear()
 			self.typeselector.ui.cmbMeetingTypes.addItems(res["result"])
 		else:
-			pass
+			self.messageDisplay.showMessage(message = "Error connecting to database", details =res["result"] , type ="Critical")
 		
 	def populate_available_meeting_items(self):
 		res = self.dbc.get_last_meeting_by_type(self.memory.get_meeting_prefix())
@@ -270,9 +273,9 @@ class Controller:
 			if res2["status"]=="Success":
 				self.itemselector.ui.lstAvailable.addItems(res2["result"])
 			else:
-				pass
+				self.messageDisplay.showMessage(message = "Error connecting to database", details =res["result"] , type ="Critical")
 		else:
-			pass
+			self.messageDisplay.showMessage(message = "Error connecting to database", details =res["result"] , type ="Critical")
 
 	def select_item(self):
 		if self.itemselector.ui.lstAvailable.currentItem() != None:
